@@ -1,0 +1,58 @@
+# 安装一个requests模块
+FROM python:alpine3.6
+
+RUN pip config set global.index-url http://mirrors.aliyun.com/pypi/simple
+RUN pip config set install.trusted-host mirrors.aliyun.com
+
+RUN pip install --upgrade pip
+
+# 安装gcc编译环境
+# apt-get install
+RUN apk add --no-cache gcc musl-dev
+
+# 下列模块的安装需要gcc编译环境
+RUN pip install twisted &&\
+    pip install gevent
+
+
+# 安装支持http/https协议客户端请求的库
+RUN pip install requests &&\
+    pip install aiohttp &&\
+    pip install tornado &&\
+    pip install selenium &&\
+    pip install appium-python-client
+
+
+
+# 安装scrapy
+# ubuntu下依赖：libxml2-dev libxslt1-dev zlib1g-dev libffi-dev libssl-dev
+RUN apk add --no-cache libxml2-dev libxslt-dev zlib-dev libffi-dev openssl-dev &&\
+    pip install scrapy
+
+# 安装pyspider
+# ubuntu下的依赖：libcurl4-openssl-dev libxml2-dev libxslt1-dev libssl-dev zlib1g-dev
+RUN apk add --no-cache curl-dev openssl-dev libxml2-dev libxslt-dev zlib-dev &&\
+    pip install pyspider
+
+RUN pip install websocket-client
+
+# 安装nodejs
+
+ADD sources.list /etc/apt/
+
+RUN \
+  cd /tmp && \
+  wget http://nodejs.org/dist/node-latest.tar.gz
+#  tar xvzf node-latest.tar.gz && \
+#  rm -f node-latest.tar.gz && \
+#  cd node-v* && \
+#  ./configure && \
+#  CXX="g++ -Wno-unused-local-typedefs" make && \
+#  CXX="g++ -Wno-unused-local-typedefs" make install && \
+#  cd /tmp && \
+#  rm -rf /tmp/node-v* && \
+#  npm install -g npm && \
+#  printf '\n# Node.js\nexport PATH="node_modules/.bin:$PATH"' >> /root/.bashrc
+
+# Define working directory.
+#WORKDIR /data
