@@ -1,6 +1,6 @@
 import os,sys
-os.system('python manage.py makemigrations spider')
-os.system('python manage.py migrate spider')
+# os.system('python manage.py makemigrations spider')
+# os.system('python manage.py migrate spider')
 os.system('python manage.py run')
 # print(sys.path)
 # print(os.system('pwd'))
